@@ -6,23 +6,23 @@ library(data.table)
 source("clean_label.R")
 
 # Location of data files; to be updated as need. Content of zip file provided should be extracted into this directory
-working_directory = "C:\\Users\\M.Vaidhy_LA\\Documents\\R\\GettingAndCleaningData_W4_PGA\\wearable"
+working_directory = "."
 setwd(working_directory)
 
 # Read the 6 activity name and 561 measurement name labels from respective file (see README.txt for more details)
-activity_labels <- read.table(file.path(working_directory, "Dataset", "activity_labels.txt"), stringsAsFactors = FALSE)
+activity_labels <- read.table(file.path(working_directory, "UCI HAR Dataset", "activity_labels.txt"), stringsAsFactors = FALSE)
 names(activity_labels) <- c("activity_id", "activity")
-measurement_labels <- read.table(file.path(working_directory, "Dataset", "features.txt"), stringsAsFactors = FALSE)
+measurement_labels <- read.table(file.path(working_directory, "UCI HAR Dataset", "features.txt"), stringsAsFactors = FALSE)
 
 # Read the measurements, subject id, and activity id from three different files for the 'test' data set
-measurements_test <- fread(file=file.path(working_directory, "Dataset", "test", "x_test.txt"))
-subject_factor_test <- read.table(file.path(working_directory, "Dataset", "test", "subject_test.txt"))
-activity_factor_test <- read.table(file.path(working_directory, "Dataset", "test", "y_test.txt"))
+measurements_test <- fread(file=file.path(working_directory, "UCI HAR Dataset", "test", "x_test.txt"))
+subject_factor_test <- read.table(file.path(working_directory, "UCI HAR Dataset", "test", "subject_test.txt"))
+activity_factor_test <- read.table(file.path(working_directory, "UCI HAR Dataset", "test", "y_test.txt"))
 
 # Read the measurements, subject id, and activity id from three different files for the 'train' data set
-measurements_train <- fread(file=file.path(working_directory, "Dataset", "train", "x_train.txt"))
-subject_factor_train <- read.table(file.path(working_directory, "Dataset", "train", "subject_train.txt"))
-activity_factor_train <- read.table(file.path(working_directory, "Dataset", "train", "y_train.txt"))
+measurements_train <- fread(file=file.path(working_directory, "UCI HAR Dataset", "train", "x_train.txt"))
+subject_factor_train <- read.table(file.path(working_directory, "UCI HAR Dataset", "train", "subject_train.txt"))
+activity_factor_train <- read.table(file.path(working_directory, "UCI HAR Dataset", "train", "y_train.txt"))
 
 # assignm the measurement names (raw) as pulled from features.txt for the two data tables
 names(measurements_test) <- measurement_labels[,2]
@@ -55,7 +55,7 @@ tidy_wearables_summary <- group_by(all_data_subset, subject_id, activity) %>% su
 
 # Saving to file
 # filter data table again to hold 'mean' columns only and svae to file.
-write.csv(select(tidy_wearables_summary, subject_id, activity, matches("mean")), file.path(working_directory, "tidy_wearables_summary.csv"), row.names = FALSE)
+write.csv(tidy_wearables_summary, file.path(working_directory, "tidy_wearables_summary.csv"), row.names = FALSE)
 
 # Clean up memory
 rm(list=ls())
