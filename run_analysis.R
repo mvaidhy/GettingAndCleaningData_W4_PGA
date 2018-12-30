@@ -55,7 +55,7 @@ tidy_wearables_summary <- group_by(all_data_subset, subject_id, activity) %>% su
 
 # Saving to file
 # filter data table again to hold 'mean' columns only and svae to file.
-write.csv(tidy_wearables_summary, file.path(working_directory, "tidy_wearables_summary.csv"), row.names = FALSE)
+write.table(tidy_wearables_summary, file.path(working_directory, "tidy_wearables_summary.txt"), row.names = FALSE)
 
 # Clean up memory
 rm(list=ls())
